@@ -1,0 +1,12 @@
+from fastapi import FastAPI
+from fastapi.responses import HTML.Reponses
+
+app=FastAPI()
+
+@app.get("/", response_class=HTMLResponse)
+def home ():
+  return """
+<title>Lets go HAM (Haydn & Sam)</title>
+<h1>Haysn & sAM = HAM</h1>
+<p>This site is hosted on GitHub Pages - Lina plz halppp.</p>
+  """
