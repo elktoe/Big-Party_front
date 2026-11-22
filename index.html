@@ -1,3 +1,4 @@
+<!-- html comment syntax  -->
 <!DOCTYPE html>
 <html>
 
@@ -12,22 +13,44 @@
 </body>
 
 
-<button id="btn">Ask the backend</button>
-<p id="out">test wording to sww where it ends up on page</p>
+<button id="btn">Ask the backend to say Hello!</button>
+<p id="out">^click the button!</p>
+
+<button id="time-btn">What time is it?</button>
+<p id="time-out"></p>
+
+
 
 <script>
   const API_URL = "http://127.0.0.1:8000";
 
-  document.getElementById("btn").addEventListener("click", async () => {
-    try {
-      const res = await fetch(API_URL + "/hello");
-      const data = await res.json();
-      document.getElementById("out").textContent = data.message;
-    } catch (err) {
-      document.getElementById("out").textContent = "Could not reach the backend.";
-      console.error(err);
+  /*Define is async function for both features (i.e, buttons)
+  Writing it once means you don't copy/paste the same block for 
+  every new feature
+  3 inputs: 
+      path=URL; field=JSON obj to read; output=where to write the output
+  */
+  async function loadInto(path, field, outputId) 
+    {
+      const out = document.getElementById(outputId);
+      try {
+        const res = await fetch(API_URL + path);
+        const data = await res.json();
+        out.textContent = data[field];
+        } 
+      catch (err) 
+          {out.textContent = "Could not reach the backend.";
+          console.error(err);
+         }
     }
-  });
+//  ()=> is a small function that runs when the button is clicked
+  document.getElementById("btn").addEventListener("click",  () => {
+    loadInto("/hello", "message", "out"); 
+    });
+
+  document.getElementById("time-btn").addEventListener("click", () => {
+    loadInto("/time", "time", "time-out");
+    });
 </script>
 
 <html>
